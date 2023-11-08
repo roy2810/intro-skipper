@@ -1,5 +1,17 @@
 # Changelog
 
+
+## v0.1.8.11 b0.0.1
+* Rebirth of the infamous Intro Skipper plugin
+  * Updated jellyfin Web-UI to 10.8.11. Beta release can be found in releases
+  * Current ConfusedPolarBear release of plugin works with 10.8.11!
+  * Please start to migrate issues and pulls into this repo!
+* TODO
+  * Create new Docker Repo
+  * Update Docker to 10.8.11
+
+
+
 ## v0.1.8.0 (no eta)
 * New features
   * Support adding skip intro button to web interface without using a fork

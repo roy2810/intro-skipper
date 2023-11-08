@@ -1,8 +1,10 @@
 # Intro Skipper (beta)
 
 <div align="center">
-<img alt="Plugin Banner" src="https://raw.githubusercontent.com/ConfusedPolarBear/intro-skipper/master/images/logo.png" />
+<img alt="Plugin Banner" src="https://raw.githubusercontent.com/Bobby306/intro-skipper/master/images/logo.png" />
 </div>
+
+* Reborn by Bobby306. Original author/credit goes to https://github.com/ConfusedPolarBear
 
 Analyzes the audio of television episodes to detect and skip over intros.
 
