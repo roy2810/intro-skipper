@@ -1,0 +1,66 @@
+name: Create Jellyfim-web artifact
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: ${{ github.repository_owner }}/jellyfin-intro-skipper
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        jellyfin-web-version: [10.8.11]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
+      - name: Configure npm cache
+        uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Checkout modified web interface
+        uses: actions/checkout@v3
+        with:
+          repository: Bobby306/jellyfin-web
+          ref: intros
+          path: web
+
+      - name: Store commit of web interface
+        id: web-commit
+        run: |
+          cd web
+          echo "commit=$(git log -1 --format='%H' | cut -c -10)" >> $GITHUB_OUTPUT
+      - name: Build and copy web interface
+        run: |
+          cd web
+          npm install
+          cp -r dist ../docker/
+          tar czf dist.tar.gz dist
+      - name: Upload web interface
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: jellyfin-web-${{ matrix.jellyfin-web-version }}+${{ steps.web-commit.outputs.commit }}.tar.gz
+          path: web/dist.tar.gz
+          if-no-files-found: error
