@@ -1,4 +1,4 @@
-name: Create Jellyfim-web artifact
+name: Create Jellyfin-web artifact
 
 on:
   release:
@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-        jellyfin-web-version: [10.8.12]
+        jellyfin-web-version: [10.8.13]
 
     steps:
       - uses: actions/checkout@v3
